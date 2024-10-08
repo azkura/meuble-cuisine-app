@@ -8,7 +8,7 @@ function NavBar() {
   const theme = useTheme();
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: theme.palette.custom?.navbar || theme.palette.primary.main }}>
+    <AppBar position="static" sx={{ backgroundColor: theme.palette.custom.navbar }}>
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Gestion des Devis

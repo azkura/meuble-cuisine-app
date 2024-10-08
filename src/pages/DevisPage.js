@@ -1,24 +1,19 @@
-import React, { useState } from 'react';
+// src/pages/DevisPage.js
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 import DevisTable from '../components/DevisTable';
-import Controls from '../components/Controls';
+
+const devisData = [
+  { id: 1, nom: 'Devis 1', date: '2024-01-15', prixHT: 1000, tva: 20, statut: 'En cours' },
+  { id: 2, nom: 'Devis 2', date: '2024-02-10', prixHT: 2000, tva: 20, statut: 'Vendu' },
+  // autres devis...
+];
 
 function DevisPage() {
-  const [devisList, setDevisList] = useState([
-    { id: 1, nom: 'Devis A', statut: 'en cours', montant: 5000 },
-    { id: 2, nom: 'Devis B', statut: 'vendu', montant: 3000 },
-  ]);
-
-  const handleAddDevis = () => {
-    const newDevis = { id: Date.now(), nom: 'Nouveau Devis', statut: 'en cours', montant: 0 };
-    setDevisList([...devisList, newDevis]);
-  };
-
   return (
-    <Box>
+    <Box p={3}>
       <Typography variant="h4">Liste des Devis</Typography>
-      <Controls onAdd={handleAddDevis} />
-      <DevisTable devisList={devisList} />
+      <DevisTable devis={devisData} />
     </Box>
   );
 }
