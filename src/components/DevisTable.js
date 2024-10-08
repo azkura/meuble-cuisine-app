@@ -3,7 +3,7 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
-import DevisForm from './DevisForm'; // Utilisation de DevisForm
+import DevisForm from './DevisForm';
 import Notification from './Notification';
 
 function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
@@ -11,10 +11,10 @@ function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
   const [selectedDevis, setSelectedDevis] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [openNotesDialog, setOpenNotesDialog] = useState(false); // Pour afficher les notes
+  const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [devisToDelete, setDevisToDelete] = useState(null);
 
-  // Ouvrir la modal pour créer un nouveau devis
+  // Ouvrir la modal pour un nouveau devis
   const handleOpenNewDevisModal = () => {
     setSelectedDevis(null);
     setIsModalOpen(true);
@@ -39,7 +39,7 @@ function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
         severity: 'success',
       });
     } else {
-      onAdd(devis);
+      onAdd(devis); 
       setNotification({
         open: true,
         message: `Le devis ${devis.nom} a été créé avec succès.`,
@@ -122,7 +122,7 @@ function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
                   </TableCell>
                   <TableCell>{devis.dateDecision}</TableCell>
                   <TableCell>{devis.budget}</TableCell>
-                  <TableCell>{devis.statut}</TableCell>
+                  <TableCell>{devis.statut}</TableCell> {/* Affiche seulement le statut */}
                   <TableCell>
                     <Button variant="contained" color="primary" onClick={() => handleEdit(devis)}>
                       Modifier
@@ -145,13 +145,7 @@ function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
       </TableContainer>
 
       {/* Modal pour l'ajout ou la modification d'un devis */}
-      <Dialog
-        open={isModalOpen}
-        onClose={handleCloseModal}
-        fullWidth={true}
-        maxWidth="md"
-      >
-        <DialogTitle>{selectedDevis ? 'Modifier le devis' : 'Ajouter un nouveau devis'}</DialogTitle>
+      <Dialog open={isModalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth>
         <DevisForm
           devis={selectedDevis}
           onSave={handleSaveDevis}
@@ -184,8 +178,6 @@ function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
       <Dialog
         open={openNotesDialog}
         onClose={handleCloseNotesDialog}
-        fullWidth={true}
-        maxWidth="md" // Agrandir la boîte de dialogue des notes
       >
         <DialogTitle>Notes pour {selectedDevis?.nom}</DialogTitle>
         <DialogContent>

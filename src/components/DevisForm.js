@@ -1,64 +1,105 @@
-import React, { useState } from 'react';
-import { Box, TextField, Button } from '@mui/material';
+// src/components/DevisForm.js
+import React, { useState, useEffect } from 'react';
+import { Button, DialogActions, DialogContent, TextField } from '@mui/material';
+import StatusSelector from './StatusSelector'; // Importation du StatusSelector
 
 function DevisForm({ devis, onSave, onClose }) {
-  const [formValues, setFormValues] = useState(devis || { nom: '', dateDecision: '', budget: '', notes: '' });
+  const [formData, setFormData] = useState({
+    nom: '',
+    dateDecision: '',
+    budget: '',
+    notes: '',
+    statut: 'en cours', // Par défaut, le statut est "en cours"
+  });
+
+  useEffect(() => {
+    if (devis) {
+      setFormData(devis);
+    }
+  }, [devis]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleStatusChange = (e) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      statut: e.target.value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formValues);
+    onSave(formData); // Sauvegarde du devis avec les informations du formulaire
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} p={3} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <TextField
-        label="Nom"
-        name="nom"
-        value={formValues.nom}
-        onChange={handleChange}
-        fullWidth
-        required
-      />
-      <TextField
-        label="Date de Décision"
-        name="dateDecision"
-        type="date"
-        value={formValues.dateDecision}
-        onChange={handleChange}
-        fullWidth
-        InputLabelProps={{ shrink: true }}
-        required
-      />
-      <TextField
-        label="Budget"
-        name="budget"
-        type="number"
-        value={formValues.budget}
-        onChange={handleChange}
-        fullWidth
-        required
-      />
-      <TextField
-        label="Notes"
-        name="notes"
-        value={formValues.notes}
-        onChange={handleChange}
-        fullWidth
-        multiline
-        rows={3}
-      />
-      <Box mt={2} display="flex" justifyContent="space-between">
-        <Button type="submit" variant="contained" color="primary">Sauvegarder</Button>
-        <Button variant="outlined" onClick={onClose}>Annuler</Button>
-      </Box>
-    </Box>
+    <form onSubmit={handleSubmit}>
+      <DialogContent>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="nom"
+          name="nom"
+          label="Nom"
+          type="text"
+          fullWidth
+          value={formData.nom}
+          onChange={handleChange}
+        />
+        <TextField
+          margin="dense"
+          id="dateDecision"
+          name="dateDecision"
+          label="Date de décision"
+          type="date"
+          fullWidth
+          value={formData.dateDecision}
+          onChange={handleChange}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          margin="dense"
+          id="budget"
+          name="budget"
+          label="Budget"
+          type="number"
+          fullWidth
+          value={formData.budget}
+          onChange={handleChange}
+        />
+        <TextField
+          margin="dense"
+          id="notes"
+          name="notes"
+          label="Notes"
+          type="text"
+          fullWidth
+          multiline
+          rows={3}
+          value={formData.notes}
+          onChange={handleChange}
+        />
+        {/* Insertion du StatusSelector */}
+        <StatusSelector status={formData.statut} onChange={handleStatusChange} />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
+          Annuler
+        </Button>
+        <Button type="submit" color="primary">
+          Sauvegarder
+        </Button>
+      </DialogActions>
+    </form>
   );
 }
 
 export default DevisForm;
-                                                                                                                                        

@@ -1,40 +1,38 @@
 import React from 'react';
-import { Select, MenuItem, FormControl, InputLabel, Box } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-function StatusSelector({ devis, onChange }) {
+function StatusSelector({ status, onChange }) {
   const theme = useTheme();
 
+  // Fonction pour déterminer la couleur du statut
   const getStatusColor = (statut) => {
     switch (statut) {
       case 'en cours':
-        return theme.palette.custom.enCours;
-      case 'vendu':
-        return theme.palette.custom.vendu;
-      case 'perdu':
-        return theme.palette.custom.perdu;
+        return theme.palette.warning.main; // Couleur pour "en cours"
+      case 'validé':
+        return theme.palette.success.main; // Couleur pour "validé"
+      case 'refusé':
+        return theme.palette.error.main; // Couleur pour "refusé"
       default:
-        return '#000000';
+        return theme.palette.text.primary; // Couleur par défaut
     }
   };
 
   return (
     <FormControl fullWidth>
-      <InputLabel>Statut</InputLabel>
+      <InputLabel id="status-label">Statut</InputLabel>
       <Select
-        value={devis.statut}
-        onChange={(e) => onChange(e.target.value)}
-        style={{ color: getStatusColor(devis.statut) }}
+        labelId="status-label"
+        id="status"
+        value={status}
+        label="Statut"
+        onChange={onChange}
+        style={{ color: getStatusColor(status) }}  // Application de la couleur au texte
       >
-        <MenuItem value="en cours" style={{ color: theme.palette.custom.enCours }}>
-          En cours
-        </MenuItem>
-        <MenuItem value="vendu" style={{ color: theme.palette.custom.vendu }}>
-          Vendu
-        </MenuItem>
-        <MenuItem value="perdu" style={{ color: theme.palette.custom.perdu }}>
-          Perdu
-        </MenuItem>
+        <MenuItem value="en cours" style={{ color: theme.palette.warning.main }}>En cours</MenuItem>
+        <MenuItem value="validé" style={{ color: theme.palette.success.main }}>Validé</MenuItem>
+        <MenuItem value="refusé" style={{ color: theme.palette.error.main }}>Refusé</MenuItem>
       </Select>
     </FormControl>
   );
