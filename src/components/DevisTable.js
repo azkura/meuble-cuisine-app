@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
 } from '@mui/material';
 import DevisCard from './DevisCard';
 import Notification from './Notification';
@@ -9,12 +9,16 @@ function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
   const [notification, setNotification] = useState({ open: false, message: '', severity: '' });
   const [selectedDevis, setSelectedDevis] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [devisToDelete, setDevisToDelete] = useState(null);
 
+  // Ouvrir la modal pour un nouveau devis
   const handleOpenNewDevisModal = () => {
     setSelectedDevis(null);
     setIsModalOpen(true);
   };
 
+  // Ouvrir la modal pour modifier un devis
   const handleEdit = (devis) => {
     setSelectedDevis(devis);
     setIsModalOpen(true);
@@ -43,13 +47,27 @@ function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
     setIsModalOpen(false);
   };
 
-  const handleDelete = (devis) => {
-    onDelete(devis);
+  // Ouvrir la boîte de dialogue de suppression
+  const handleOpenDeleteDialog = (devis) => {
+    setDevisToDelete(devis);
+    setOpenDeleteDialog(true);
+  };
+
+  // Fermer la boîte de dialogue de suppression
+  const handleCloseDeleteDialog = () => {
+    setDevisToDelete(null);
+    setOpenDeleteDialog(false);
+  };
+
+  // Confirmer et effectuer la suppression
+  const handleConfirmDelete = () => {
+    onDelete(devisToDelete);
     setNotification({
       open: true,
-      message: `Le devis ${devis.nom} a été supprimé avec succès.`,
+      message: `Le devis ${devisToDelete.nom} a été supprimé avec succès.`,
       severity: 'error',
     });
+    setOpenDeleteDialog(false);
   };
 
   const handleCloseNotification = () => {
@@ -85,7 +103,7 @@ function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
                     <Button variant="contained" color="primary" onClick={() => handleEdit(devis)}>
                       Modifier
                     </Button>
-                    <Button variant="contained" color="secondary" onClick={() => handleDelete(devis)}>
+                    <Button variant="contained" color="secondary" onClick={() => handleOpenDeleteDialog(devis)}>
                       Supprimer
                     </Button>
                   </TableCell>
@@ -102,12 +120,34 @@ function DevisTable({ devisList, onEdit, onDelete, onAdd }) {
         </Table>
       </TableContainer>
 
+      {/* Modal pour l'ajout ou la modification d'un devis */}
       <Dialog open={isModalOpen} onClose={handleCloseModal}>
         <DevisCard
           devis={selectedDevis}
           onSave={handleSaveDevis}
           onClose={handleCloseModal}
         />
+      </Dialog>
+
+      {/* Boîte de dialogue de confirmation de suppression */}
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+      >
+        <DialogTitle>Confirmer la suppression</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Êtes-vous sûr de vouloir supprimer le devis "{devisToDelete?.nom}" ? Cette action est irréversible.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleConfirmDelete} color="secondary">
+            Supprimer
+          </Button>
+        </DialogActions>
       </Dialog>
 
       <Notification
