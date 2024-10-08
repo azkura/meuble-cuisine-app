@@ -8,9 +8,9 @@ function NavBar() {
   const theme = useTheme();
 
   return (
-    <AppBar position="static" style={{ backgroundColor: theme.palette.custom.navbar }}>
+    <AppBar position="static" sx={{ backgroundColor: theme.palette.custom?.navbar || theme.palette.primary.main }}>
       <Toolbar>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Gestion des Devis
         </Typography>
         <Button color="inherit" component={Link} to="/">Dashboard</Button>

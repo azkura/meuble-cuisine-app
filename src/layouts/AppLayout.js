@@ -1,19 +1,18 @@
-// src/layouts/AppLayout.js
 import React from 'react';
+import { Box } from '@mui/material';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import './AppLayout.css';
 
-const AppLayout = ({ children }) => {
+function AppLayout({ children }) {
   return (
-    <div className="app-container">
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <NavBar />
-      <div className="content-container">
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         {children}
-      </div>
+      </Box>
       <Footer />
-    </div>
+    </Box>
   );
-};
+}
 
 export default AppLayout;

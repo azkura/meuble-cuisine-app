@@ -1,51 +1,14 @@
-// src/components/Modal.js
-import React, { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import React from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
-function Modal({ isOpen, onClose, onAddDevis }) {
-  const [devis, setDevis] = useState({ nom: '', statut: 'en cours' });
-
-  const handleChange = (e) => {
-    setDevis({ ...devis, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = () => {
-    onAddDevis(devis);
-  };
-
+function Modal({ open, title, children, onClose, onSubmit }) {
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle>Ajouter un Devis</DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          name="nom"
-          label="Nom du Devis"
-          fullWidth
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          name="statut"
-          label="Statut"
-          fullWidth
-          onChange={handleChange}
-          value={devis.statut}
-        />
-      </DialogContent>
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>{children}</DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Annuler
-        </Button>
-        <Button onClick={handleSubmit} color="primary">
-          Ajouter
-        </Button>
+        <Button onClick={onClose} color="secondary">Annuler</Button>
+        <Button onClick={onSubmit} color="primary">Valider</Button>
       </DialogActions>
     </Dialog>
   );
