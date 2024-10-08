@@ -1,7 +1,6 @@
 // src/components/DevisForm.js
 import React, { useState, useEffect } from 'react';
-import { Button, DialogActions, DialogContent, TextField } from '@mui/material';
-import StatusSelector from './StatusSelector'; // Importation du StatusSelector
+import { Button, DialogActions, DialogContent, TextField, Box } from '@mui/material';
 
 function DevisForm({ devis, onSave, onClose }) {
   const [formData, setFormData] = useState({
@@ -26,10 +25,11 @@ function DevisForm({ devis, onSave, onClose }) {
     }));
   };
 
-  const handleStatusChange = (e) => {
+  // Gérer le changement de statut avec les boutons
+  const handleStatusChange = (newStatus) => {
     setFormData((prevData) => ({
       ...prevData,
-      statut: e.target.value,
+      statut: newStatus,
     }));
   };
 
@@ -87,9 +87,33 @@ function DevisForm({ devis, onSave, onClose }) {
           value={formData.notes}
           onChange={handleChange}
         />
-        {/* Insertion du StatusSelector */}
-        <StatusSelector status={formData.statut} onChange={handleStatusChange} />
+
+        {/* Remplacer StatusSelector par les boutons de statut */}
+        <Box mt={2} display="flex" justifyContent="space-around">
+          <Button
+            variant={formData.statut === 'en cours' ? 'contained' : 'outlined'}
+            color="primary"
+            onClick={() => handleStatusChange('en cours')}
+          >
+            En cours
+          </Button>
+          <Button
+            variant={formData.statut === 'validé' ? 'contained' : 'outlined'}
+            color="success"
+            onClick={() => handleStatusChange('validé')}
+          >
+            Validé
+          </Button>
+          <Button
+            variant={formData.statut === 'refusé' ? 'contained' : 'outlined'}
+            color="secondary"
+            onClick={() => handleStatusChange('refusé')}
+          >
+            Refusé
+          </Button>
+        </Box>
       </DialogContent>
+      
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Annuler
