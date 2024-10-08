@@ -22,6 +22,19 @@ const theme = createTheme({
       fontSize: '1.2rem',
     },
   },
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+    custom: {
+      enCours: '#FFCA28', // jaune
+      vendu: '#4CAF50', // vert
+      perdu: '#F44336', // rouge
+    },
+  },
 });
 
 export default theme;
