@@ -6,9 +6,9 @@ import './AppLayout.css';
 
 const AppLayout = ({ children }) => {
   return (
-    <div className="app-container">
+    <div className="app-layout">
       <NavBar />
-      <div className="content-container">
+      <div className="content-wrap">
         {children}
       </div>
       <Footer />

@@ -1,12 +1,18 @@
-/* For sticky footer layout */
-.app-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .content-container {
-    flex: 1;
-    padding: 20px;
-  }
-  
+/* src/components/AppLayout.css */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Prendre toute la hauteur de la fenêtre */
+}
+
+.content-wrap {
+  flex: 1; /* Prendre tout l'espace disponible entre le NavBar et le Footer */
+  padding: 20px; /* Ajoute un espacement pour éviter que le contenu ne soit collé au bord */
+}
+
+footer {
+  background-color: #d2b48c; /* Kamel clair */
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+}

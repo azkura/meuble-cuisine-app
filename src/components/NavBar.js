@@ -1,4 +1,3 @@
-// src/components/NavBar.js
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -8,7 +7,7 @@ function NavBar() {
   const theme = useTheme();
 
   return (
-    <AppBar position="static" style={{ backgroundColor: theme.palette.custom.navbar }}>
+    <AppBar position="static" style={{ backgroundColor: theme?.palette?.custom?.navbar || '#defaultColor' }}>
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           Gestion des Devis
